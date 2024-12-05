@@ -82,7 +82,7 @@ class Base():
         self.__colorRect = self.color
         self.__marginRect = (0 + self.paddingSurface[0], 0 + self.paddingSurface[1],
                            0 + self.paddingSurface[2], 0 + self.paddingSurface[3])
-
+        
     @property
     def _rect(self):
         return pygame.Rect(0 + self.__marginRect[0], 0 + self.__marginRect[1], self.size.x - self.__marginRect[2], self.size.y - self.__marginRect[3])

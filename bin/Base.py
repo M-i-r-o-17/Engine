@@ -3,7 +3,7 @@
 #
 
 #Самодельные вспомогательные классы
-from Basic import *
+from bin.Basic import *
 
 #Классы движка
 
@@ -12,7 +12,7 @@ import pygame
 
 class Base():
 
-    __errorCode = "0x0"
+    _errorCode = "0x0"
 
     _count = 0
     _debug = False
@@ -26,20 +26,20 @@ class Base():
         Base._count += 1
 
         if position is None:
-            Debug.ERROR(Base.__errorCode, 1, f"Позиция обьекта не задана", Base._GetName())
+            Debug.ERROR(Base._errorCode, 1, f"Позиция обьекта не задана", Base._GetName())
             return None
 
-        if not(isinstance(position, tuple)) and not(isinstance(position, Vector2)):
-            Debug.ERROR(Base.__errorCode, 2, f"Позиция обьекта имеет не правельный тип данных! Поддерживаются только Vector2 и typle", Base._GetName())
+        if not(isinstance(position, (tuple, Vector2))):
+            Debug.ERROR(Base._errorCode, 2, f"Позиция обьекта имеет не правельный тип данных! Поддерживаются только Vector2 и typle", Base._GetName())
             return None
 
         
         if size is None:
-            Debug.ERROR(Base.__errorCode, 3, "Размер обьекта не задан", Base._GetName())
+            Debug.ERROR(Base._errorCode, 3, "Размер обьекта не задан", Base._GetName())
             return None
 
-        if type(size) != tuple and type(size) != Vector2:
-            Debug.ERROR(Base.__errorCode, 4, "Позиция имеет не правельный тип данных! Поддерживаются только Vector2 и typle", Base._GetName())
+        if not(isinstance(size, (tuple, Vector2))):
+            Debug.ERROR(Base._errorCode, 4, "Позиция имеет не правельный тип данных! Поддерживаются только Vector2 и typle", Base._GetName())
             return None
         
         return super().__new__(cls)

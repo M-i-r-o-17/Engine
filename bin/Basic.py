@@ -72,17 +72,19 @@ class Debug():
             print(f" \033[30m\033[47m[LOG in '{name}']\033[0m {message}\033[0m ")
     
     @staticmethod
-    def WARNING(message, name:str=None):
-        if name == None:
-            print(f" \033[37m\033[43m[WARNING]\033[0m \033[33m{message}\033[0m ")
-        else:
-            print(f" \033[37m\033[43m[WARNING in '{name}']\033[0m \033[33m{message}\033[0m ")
+    def WARNING(message, prefix:str = "", code:int = None,name:str=None):
+        warning = "[WARNING]"
+        if name != None: warning = f"[WARNING in '{name}']"
+        warCode = ""
+        if code != None: warCode = f"Engine code: {prefix}"+ "0" * (6 - len(f"{code}")) + f"{code}: "
+
+        print(f" \033[37m\033[43m{warning}\033[0m \033[33m{warCode}{message}\033[0m ")
     
     @staticmethod
     def ERROR(prefix:str, code:int, message, name:str=None):
         if name == None:
-            print(f" \033[37m\033[41m[ERROR]\033[0m \033[31mEngine code: {prefix}"+ "0" * (7 - len(f"{code}")) +f"{code}: {message}\033[0m")
+            print(f" \033[37m\033[41m[ERROR]\033[0m \033[31mEngine code: {prefix}"+ "0" * (6 - len(f"{code}")) +f"{code}: {message}\033[0m")
         else:
-            print(f" \033[37m\033[41m[ERROR in '{name}']\033[0m \033[31mEngine code: {prefix}"+ "0" * (7 - len(f"{code}")) +f"{code}: {message}\033[0m")
+            print(f" \033[37m\033[41m[ERROR in '{name}']\033[0m \033[31mEngine code: {prefix}"+ "0" * (6 - len(f"{code}")) +f"{code}: {message}\033[0m")
     def __init__(self):
         pass

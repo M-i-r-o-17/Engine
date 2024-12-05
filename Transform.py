@@ -3,18 +3,13 @@ from bin.Base import Base
 
 class Transform(Base):
 
-    _errorCode = "0x1"
-
-    _name = "Transform"
-
     def __new__(cls, position, size):
+
+        cls._errorCode = "0x3"
+        cls._name = "Transform"
 
         base = super().__new__(cls,position, size)
 
-        if base == None:
-            Debug.ERROR(Transform._erroreCode, 1, "Не удачная инициализация класса", Transform._GetName(Transform._name))
-            return None
-        
         return base
     
     def __init__(self, position, size):
@@ -24,6 +19,8 @@ class Transform(Base):
         self.OnCollisionEnterEvent = None
         self.OnCollisionEvent      = None
         self.OnCollsionExitEvent   = None
+
+        print(f"{self._id=} | {self._name}")
 
     @property
     def width(self):

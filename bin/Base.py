@@ -10,46 +10,20 @@ from bin.Basic import *
 #Библиотеки python
 import pygame
 
-class Base():
-
-    _errorCode = "0x0"
-
-    _count = 0
-    _debug = False
-
-    @staticmethod
-    def _GetName(name = "Base"):
-        return name + f" {Base._count}"
+class Base(Basic):
 
     def __new__(cls, position, size):
 
-        Base._count += 1
+        if cls._errorCode == None: cls._errorCode = "0x1"
+        if cls._name == None:  cls._name = "Base"
 
-        if position is None:
-            Debug.ERROR(Base._errorCode, 1, f"Позиция обьекта не задана", Base._GetName())
-            return None
-
-        if not(isinstance(position, (tuple, Vector2))):
-            Debug.ERROR(Base._errorCode, 2, f"Позиция обьекта имеет не правельный тип данных! Поддерживаются только Vector2 и typle", Base._GetName())
-            return None
-
+        base = super().__new__(cls, position, size)
         
-        if size is None:
-            Debug.ERROR(Base._errorCode, 3, "Размер обьекта не задан", Base._GetName())
-            return None
-
-        if not(isinstance(size, (tuple, Vector2))):
-            Debug.ERROR(Base._errorCode, 4, "Позиция имеет не правельный тип данных! Поддерживаются только Vector2 и typle", Base._GetName())
-            return None
-        
-        return super().__new__(cls)
-    
-    def _CreateName(self, name = "Base"):
-        self.name = name + f" {Base._count}"
+        return base
 
     def __init__(self, position, size):
 
-        Base._count += 1
+        Base._id += 1
 
         self.name = self._CreateName()
 
@@ -62,8 +36,6 @@ class Base():
 
         self.position = Vector2()
         self.size     = Vector2()
-
-        self.surface = None
         
         if type(position) == Vector2:
             self.position = position
@@ -75,36 +47,19 @@ class Base():
         elif type(size) == tuple:
             self.size = Vector2(size[0], size[1])
 
-        self._surface = pygame.Surface(size.array)
-        self.paddingSurface = (0, 0, 0, 0)
-
         self.drawRect = True
         self.__colorRect = self.color
-        self.__marginRect = (0 + self.paddingSurface[0], 0 + self.paddingSurface[1],
-                           0 + self.paddingSurface[2], 0 + self.paddingSurface[3])
+
         
     @property
     def _rect(self):
-        return pygame.Rect(0 + self.__marginRect[0], 0 + self.__marginRect[1], self.size.x - self.__marginRect[2], self.size.y - self.__marginRect[3])
+        return pygame.Rect(0 , 0 , self.size.x , self.size.y)
 
     #default private
-    def _Draw(self, surface):
+    def _Draw(self):
 
-        self._surface.fill( self.backgroundColor )
-
+        super()._Draw()
         if self.drawRect: pygame.draw.rect(self._surface, self.__colorRect, self._rect)
-
-        surface.blit(self.surface, self.position.array)
-
-    #default public
-    def Start(self):
-        pass
-
-    def Update(self, surface):
-        self._Draw(surface)
-
-    def FixedUpdate(self, surface):
-        self._Draw(surface) 
 
     #surface
     def ResizeSurface(self, size):
@@ -120,14 +75,6 @@ class Base():
         return True
 
     #rect
-    def SetMarginRect(self, margin):
-        if len(margin) != 4: return False
-        
-        self.__marginRect = (margin[0] + self.paddingSurface[0], margin[1] + self.paddingSurface[1],
-                           margin[2] + self.paddingSurface[2], margin[3] + self.paddingSurface[3])
-        
-        return True
-
     def SetColorRect(self, color):
 
         if len(color) != 3: return False

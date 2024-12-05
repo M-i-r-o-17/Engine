@@ -1,4 +1,6 @@
 import math
+import enum
+import pygame
 
 class Vector2():
 
@@ -59,6 +61,10 @@ class Color():
 
     activeColor     = (30, 30, 30)
 
+    white           = (255, 255, 255)
+
+    black           = (0, 0, 0)
+
     def __init__(self):
         pass  
 
@@ -88,3 +94,122 @@ class Debug():
             print(f" \033[37m\033[41m[ERROR in '{name}']\033[0m \033[31mEngine code: {prefix}"+ "0" * (6 - len(f"{code}")) +f"{code}: {message}\033[0m")
     def __init__(self):
         pass
+
+class Basic():
+    _errorCode = "0x0"
+
+    _id = 0
+    _debug = False
+    
+    def __new__(cls, position, size):
+
+        if cls._name == None: cls._name = "Basic"
+        if cls._errorCode == None: cls._errorCode = "0x0"
+
+        if position is None:
+            Debug.ERROR(cls._errorCode, 1, f"Позиция сущности не задана", cls._name + f" {cls._id}")
+            return None
+
+        if not(isinstance(position, (tuple, Vector2))):
+            Debug.ERROR(cls._errorCode, 2, f"Позиция сущности имеет не правельный тип данных! Поддерживаются только Vector2 и typle", cls._name + f" {cls._id}")
+            return None
+
+        
+        if size is None:
+            Debug.ERROR(cls._errorCode, 3, "Размер сущности не задан", cls._name + f" {cls._id}")
+            return None
+
+        if not(isinstance(size, (tuple, Vector2))):
+            Debug.ERROR(cls._errorCode, 4, "Позиция сущности имеет не правельный тип данных! Поддерживаются только Vector2 и typle", cls._name + f" {cls._id}")
+            return None
+        
+        cls._id += 1
+
+        return super().__new__(cls)
+
+    def _CreateName(self, name = "Basic"):
+        self.name = name + f" {Basic._id}"
+
+    def __init__(self, position, size):
+
+        self.name = self._CreateName()
+
+        self.active = True
+
+        self.layer = 0
+        
+        if type(position) == Vector2:
+            self.position = position
+        elif type(position) == tuple:
+            self.position = Vector2(position[0], position[1])
+
+        if type(size) == Vector2:
+            self.size = size
+        elif type(size) == tuple:
+            self.size = Vector2(size[0], size[1])
+
+        self._surface = pygame.Surface(size.array)
+        self.paddingSurface = (0, 0, 0, 0)
+    
+    #default private
+    def _Draw(self):
+        self._surface.fill( self.backgroundColor )
+
+    #default public
+    def Start(self):
+        pass
+
+    def Update(self, surface):
+        self._Draw()
+        surface.blit(self._surface, self.position.array)
+
+    def FixedUpdate(self, surface):
+        self._Draw()
+        surface.blit(self._surface, self.position.array) 
+
+class AliginFont(enum.Enum):
+
+    rightTop        = 2
+    middleTop       = 1
+    leftTop         = 0
+
+    rightMidle      = 5
+    center          = 4
+    leftMiddle      = 3
+
+    rightBottom     = 8
+    middleBottom    = 7
+    leftBottom      = 6
+
+class Font():
+
+    defaultPath = "Engine/UI/font/"
+
+    fontRegular     = "Menlo-Regular.ttf"
+    fontItalic      = "Menlo-Italic.ttf"
+    fontBoldItalic  = "Menlo-BoldItalic.ttf"
+    fontBold        = "Menlo-Bold.ttf"
+
+    def __init__(self, bold:bool = False, italic:bool = False, path:str = None, size:int = 16, aligin:AliginFont = AliginFont.leftTop):
+
+        self.bold   = bold
+        self.italic = italic
+
+        self.path = path
+
+        self.size = size
+
+        self.aligin = aligin
+
+    @property
+    def font(self):
+        if self.path != None: return self.path
+
+        if self.bold and self.italic:
+            return self.defaultPath + self.fontBoldItalic
+        elif self.bold:
+            return self.defaultPath + self.fontBold
+        elif self.italic:
+            return self.defaultPath + self.fontItalic
+        else:
+            return self.defaultPath + self.fontItalic

@@ -1,6 +1,8 @@
 from bin.Basic import *
 from bin.Base import Base
 
+import pygame # type: ignore
+
 class Transform(Base):
 
     def __new__(cls, position, size):

@@ -8,7 +8,7 @@ from bin.Basic import *
 #Классы движка
 
 #Библиотеки python
-import pygame
+import pygame # type: ignore
 
 
 class BaseUI(Basic):

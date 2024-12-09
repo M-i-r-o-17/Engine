@@ -1,7 +1,7 @@
 from bin.Basic import *
 from bin.BaseUI import BaseUI
 
-import pygame
+import pygame # type: ignore
 
 class Label(BaseUI):
 

@@ -1,6 +1,6 @@
 import math
 import enum
-import pygame
+import pygame # type: ignore
 
 class Vector2():
 

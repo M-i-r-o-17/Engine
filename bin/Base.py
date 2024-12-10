@@ -3,7 +3,7 @@
 #
 
 #Самодельные вспомогательные классы
-from bin.Basic import *
+from ..bin.Basic import *
 
 #Классы движка
 
@@ -23,7 +23,7 @@ class Base(Basic):
 
     def __init__(self, position, size):
 
-        Base._id += 1
+        Basic.__init__(self, position, size)
 
         self.name = self._CreateName()
 

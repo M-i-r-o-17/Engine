@@ -1,5 +1,5 @@
-from bin.Basic import *
-from bin.BaseUI import BaseUI
+from ..bin.Basic import *
+from ..bin.BaseUI import BaseUI
 
 import pygame # type: ignore
 
@@ -7,7 +7,7 @@ class Label(BaseUI):
 
     def __new__(cls, position, size):
 
-        cls._errorCode = "0x4"
+        cls._errorCode = "2x0"
         cls._name = "Label"
 
         base = super().__new__(position, size)

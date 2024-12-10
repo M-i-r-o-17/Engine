@@ -150,12 +150,14 @@ class Basic():
         elif type(size) == tuple:
             self.size = Vector2(size[0], size[1])
 
-        self._surface = pygame.Surface(size.array)
+        self._surface = pygame.Surface(self.size.array)
+        
         self.paddingSurface = (0, 0, 0, 0)
+        self.backgroundColor = Color.background
     
     #default private
     def _Draw(self):
-        self._surface.fill( self.backgroundColor )
+        self._surface.fill(self.backgroundColor)
         
     #default public
     def Start(self):

@@ -1,5 +1,6 @@
-from bin.Basic import *
-from bin.Base import Base
+from .bin.Basic import *
+from .bin.Base import Base
+from .bin.Sprite import *
 
 import pygame # type: ignore
 
@@ -22,7 +23,9 @@ class Transform(Base):
         self.OnCollisionEvent      = None
         self.OnCollsionExitEvent   = None
 
-        print(f"{self._id=} | {self._name}")
+        self.image = None
+
+        if self.DEBUG: print(f"{self._id=} | {self._name}")
 
     @property
     def width(self):
@@ -106,3 +109,7 @@ class Transform(Base):
     def MoveToDy(self, dy):
         self.position += Vector2(0, dy)
 
+    def _Draw(self):
+        super()._Draw()
+
+        if self.image != None: self._surface.blit(self.image.getImage(self.size), self.image.position.array)

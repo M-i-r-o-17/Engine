@@ -3,7 +3,7 @@
 #
 
 #Самодельные вспомогательные классы
-from bin.Basic import *
+from ..bin.Basic import *
 
 #Классы движка
 
@@ -47,9 +47,12 @@ class BaseUI(Basic):
         self._surface = pygame.Surface(size.array)
 
         self.paddingSurface = (0, 0, 0, 0)
+
+        self.eventOnClick = None
+        self.args = []
     
     def OnClick(self, event):
-        if event: event()
+        if self.eventOnClick: self.eventOnClick(event, self.args)
 
     @property
     def width(self):

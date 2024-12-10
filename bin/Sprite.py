@@ -1,5 +1,5 @@
-from bin.Basic import *
-from bin.Base import Base
+from ..bin.Basic import *
+from ..bin.Base import Base
 
 import pygame # type: ignore
 
@@ -33,14 +33,11 @@ class Sprite(Base):
         else:
             self.image = self.image.convert()
 
-        self.Resize(size)
-
-    def Resize(self, size:Vector2):
         self.image = pygame.transform.scale(self.image, size.array)
 
-    @property
-    def imageSurface(self):
-        return self.image
+    def getImage(self, size:Vector2):
+
+        return pygame.transform.scale(self.image, size.array)
 
 
         

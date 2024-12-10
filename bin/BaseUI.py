@@ -47,7 +47,10 @@ class BaseUI(Basic):
         self._surface = pygame.Surface(size.array)
 
         self.paddingSurface = (0, 0, 0, 0)
-        
+    
+    def OnClick(self, event):
+        if event: event()
+
     @property
     def width(self):
         return self.size.x

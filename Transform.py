@@ -7,7 +7,7 @@ class Transform(Base):
 
     def __new__(cls, position, size):
 
-        cls._errorCode = "0x3"
+        cls._errorCode = "1x0"
         cls._name = "Transform"
 
         base = super().__new__(cls,position, size)

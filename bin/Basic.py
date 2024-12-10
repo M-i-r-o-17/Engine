@@ -154,7 +154,7 @@ class Basic():
     #default private
     def _Draw(self):
         self._surface.fill( self.backgroundColor )
-
+        
     #default public
     def Start(self):
         pass
